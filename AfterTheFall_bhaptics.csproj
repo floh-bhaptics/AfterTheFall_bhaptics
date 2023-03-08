@@ -112,4 +112,7 @@
     <None Include="bHaptics\SmasherStomp.tact" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>XCOPY "$(SolutionDir)bHaptics" "$(TargetDir)\bHaptics\" /S /Y</PostBuildEvent>
+  </PropertyGroup>
 </Project>

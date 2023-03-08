@@ -118,6 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="EaterExplode" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\bHaptics\EaterExplode.tact;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="ExplosionBelly" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\bHaptics\ExplosionBelly.tact;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
@@ -135,6 +138,9 @@
   </data>
   <data name="HeartBeat" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\bHaptics\HeartBeat.tact;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="JuggernautGrab" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\bHaptics\JuggernautGrab.tact;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="RecoilArms_L" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\bHaptics\RecoilArms_L.tact;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
@@ -162,5 +168,8 @@
   </data>
   <data name="Slash" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\bHaptics\Slash.tact;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="SmasherStomp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\bHaptics\SmasherStomp.tact;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
 </root>

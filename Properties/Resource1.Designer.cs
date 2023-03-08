@@ -61,6 +61,15 @@ namespace AfterTheFall_bhaptics.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {&quot;project&quot;:{&quot;category&quot;:&quot;&quot;,&quot;tags&quot;:[],&quot;uploader&quot;:&quot;Oy8xq33fqbOwk4g7ojpt1pM5pbC2&quot;,&quot;mediaFileDuration&quot;:1,&quot;name&quot;:&quot;EaterExplode&quot;,&quot;id&quot;:&quot;NBuoeTlJQSJn5zfgWV3T&quot;,&quot;media&quot;:{&quot;name&quot;:&quot;&quot;,&quot;mediaType&quot;:&quot;None&quot;,&quot;description&quot;:&quot;&quot;,&quot;link&quot;:&quot;&quot;,&quot;updateTime&quot;:0,&quot;duration&quot;:0},&quot;description&quot;:&quot;&quot;,&quot;tracks&quot;:[{&quot;enable&quot;:true,&quot;effects&quot;:[{&quot;name&quot;:&quot;Effect 1&quot;,&quot;offsetTime&quot;:702,&quot;startTime&quot;:0,&quot;modes&quot;:{&quot;VestFront&quot;:{&quot;dotMode&quot;:{&quot;dotConnected&quot;:false,&quot;feedback&quot;:[{&quot;startTime&quot;:0,&quot;endTime&quot;:702,&quot;playbackType&quot;:&quot;NONE&quot;,&quot;pointList&quot;:[]}]},&quot;pathMode&quot;:{&quot;feedback&quot;:[{&quot;movi [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string EaterExplode {
+            get {
+                return ResourceManager.GetString("EaterExplode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {&quot;project&quot;:{&quot;createdAt&quot;:1639509867379,&quot;description&quot;:&quot;&quot;,&quot;layout&quot;:{&quot;layouts&quot;:{&quot;VestBack&quot;:[{&quot;index&quot;:0,&quot;x&quot;:0,&quot;y&quot;:0},{&quot;index&quot;:1,&quot;x&quot;:0.333,&quot;y&quot;:0},{&quot;index&quot;:2,&quot;x&quot;:0.667,&quot;y&quot;:0},{&quot;index&quot;:3,&quot;x&quot;:1,&quot;y&quot;:0},{&quot;index&quot;:4,&quot;x&quot;:0,&quot;y&quot;:0.25},{&quot;index&quot;:5,&quot;x&quot;:0.333,&quot;y&quot;:0.25},{&quot;index&quot;:6,&quot;x&quot;:0.667,&quot;y&quot;:0.25},{&quot;index&quot;:7,&quot;x&quot;:1,&quot;y&quot;:0.25},{&quot;index&quot;:8,&quot;x&quot;:0,&quot;y&quot;:0.5},{&quot;index&quot;:9,&quot;x&quot;:0.333,&quot;y&quot;:0.5},{&quot;index&quot;:10,&quot;x&quot;:0.667,&quot;y&quot;:0.5},{&quot;index&quot;:11,&quot;x&quot;:1,&quot;y&quot;:0.5},{&quot;index&quot;:12,&quot;x&quot;:0,&quot;y&quot;:0.75},{&quot;index&quot;:13,&quot;x&quot;:0.333,&quot;y&quot;:0.75},{&quot;index&quot;:14,&quot;x&quot;:0.667,&quot;y....
         /// </summary>
         internal static string ExplosionBelly {
@@ -111,6 +120,15 @@ namespace AfterTheFall_bhaptics.Properties {
         internal static string HeartBeat {
             get {
                 return ResourceManager.GetString("HeartBeat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {&quot;project&quot;:{&quot;category&quot;:&quot;&quot;,&quot;tags&quot;:[],&quot;uploader&quot;:&quot;Oy8xq33fqbOwk4g7ojpt1pM5pbC2&quot;,&quot;mediaFileDuration&quot;:2,&quot;name&quot;:&quot;JuggernautGrab&quot;,&quot;id&quot;:&quot;fho93jjFcG2eqA7BbwBW&quot;,&quot;media&quot;:{&quot;name&quot;:&quot;&quot;,&quot;mediaType&quot;:&quot;None&quot;,&quot;description&quot;:&quot;&quot;,&quot;link&quot;:&quot;&quot;,&quot;updateTime&quot;:0,&quot;duration&quot;:0},&quot;description&quot;:&quot;&quot;,&quot;tracks&quot;:[{&quot;enable&quot;:true,&quot;effects&quot;:[{&quot;name&quot;:&quot;Effect 1&quot;,&quot;offsetTime&quot;:1404,&quot;startTime&quot;:0,&quot;modes&quot;:{&quot;VestFront&quot;:{&quot;dotMode&quot;:{&quot;dotConnected&quot;:false,&quot;feedback&quot;:[]},&quot;pathMode&quot;:{&quot;feedback&quot;:[{&quot;movingPattern&quot;:&quot;CONST_TDM&quot;,&quot;playbackType&quot;:&quot;FADE_OUT&quot;,&quot;visible&quot;:true [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string JuggernautGrab {
+            get {
+                return ResourceManager.GetString("JuggernautGrab", resourceCulture);
             }
         }
         
@@ -192,6 +210,15 @@ namespace AfterTheFall_bhaptics.Properties {
         internal static string Slash {
             get {
                 return ResourceManager.GetString("Slash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {&quot;project&quot;:{&quot;category&quot;:&quot;&quot;,&quot;tags&quot;:[],&quot;uploader&quot;:&quot;Oy8xq33fqbOwk4g7ojpt1pM5pbC2&quot;,&quot;mediaFileDuration&quot;:1,&quot;name&quot;:&quot;SmasherStomp&quot;,&quot;id&quot;:&quot;eIjszD9LXcKPGdxHDsj3&quot;,&quot;media&quot;:{&quot;name&quot;:&quot;&quot;,&quot;mediaType&quot;:&quot;None&quot;,&quot;description&quot;:&quot;&quot;,&quot;link&quot;:&quot;&quot;,&quot;updateTime&quot;:0,&quot;duration&quot;:0},&quot;description&quot;:&quot;&quot;,&quot;tracks&quot;:[{&quot;enable&quot;:true,&quot;effects&quot;:[{&quot;name&quot;:&quot;Effect 1&quot;,&quot;offsetTime&quot;:711,&quot;startTime&quot;:0,&quot;modes&quot;:{&quot;VestFront&quot;:{&quot;dotMode&quot;:{&quot;dotConnected&quot;:false,&quot;feedback&quot;:[]},&quot;pathMode&quot;:{&quot;feedback&quot;:[{&quot;movingPattern&quot;:&quot;CONST_TDM&quot;,&quot;playbackType&quot;:&quot;FADE_OUT&quot;,&quot;visible&quot;:true,&quot;p [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string SmasherStomp {
+            get {
+                return ResourceManager.GetString("SmasherStomp", resourceCulture);
             }
         }
     }

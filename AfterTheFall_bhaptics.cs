@@ -40,7 +40,7 @@ namespace AfterTheFall_bhaptics
             public static void Postfix(Gun __instance)
             {
                 bool isRight = (__instance.MainHandSide == Vertigo.VR.EHandSide.Right);
-                tactsuitVr.ShootRecoil(isRight);
+                tactsuitVr.ShootRecoil("Pistol", isRight);
             }
         }
 

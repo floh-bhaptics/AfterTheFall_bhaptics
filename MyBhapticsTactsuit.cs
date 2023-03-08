@@ -97,7 +97,6 @@ namespace MyBhapticsTactsuit
             // Get location of the compiled assembly and search through "bHaptics" directory and contained patterns
             string assemblyFile = Assembly.GetExecutingAssembly().Location;
             string myPath = Path.GetDirectoryName(assemblyFile);
-            LOG("Assembly path: " + myPath);
             string configPath = Path.Combine(myPath, "bHaptics");
             // If the directory doesn't exist, use the internal Resource
             if (!Directory.Exists(configPath)) { RegisterInternally(configPath); return; }

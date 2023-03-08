@@ -49,7 +49,7 @@ namespace AfterTheFall_bhaptics
         {
             public static void Postfix(PlayerBodyHit __instance)
             {
-                tactsuitVr.LOG("Direction: " + __instance.localHeadHitDirection.x.ToString() + " " + __instance.localHeadHitDirection.z.ToString());
+                //tactsuitVr.LOG("Direction: " + __instance.localHeadHitDirection.x.ToString() + " " + __instance.localHeadHitDirection.z.ToString());
                 Vector3 hitPosition = __instance.localHeadHitDirection;
                 Vector3 flattenedHit = new Vector3(hitPosition.x, 0f, hitPosition.z);
                 Vector3 patternOrigin = new Vector3(0f, 0f, 1f);

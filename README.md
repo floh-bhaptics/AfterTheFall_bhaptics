@@ -19,8 +19,8 @@ click on "More info..." to pick "Run anyway". If you aren't sure what the file d
 tool, the mod loader (BepInEx) and my mod from GitHub and unzip them into the current directory.
 
 Afterwards, you will have a "AfterTheFall_modding.exe" file in your main game folder. Run this to start After The Fall with the mod. The first time will take
-quite a while because the modding tool will do its magic. But the next startup will be speedy. You should feel a startup heart beat right in the beginning so you know
-that the mod is working.
+quite a while because the modding tool will do its magic, and Zenith might not even start. If the command Window closes and nothing happens, just run the executable
+again and it should work. You should feel a startup heart beat right in the beginning so you know that the mod is working.
 
 That's it. You can still play unmodded After The Fall by starting it "the normal way" and not via the "AfterTheFall_modding.exe".
 

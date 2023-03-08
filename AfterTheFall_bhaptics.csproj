@@ -66,6 +66,10 @@
       <HintPath>D:\Games\Oculus\Software\vertigo-games-snowbreed\BepInEx\unhollowed\UnityEngine.PhysicsModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Vertigo.Animation">
+      <HintPath>D:\Games\Oculus\Software\vertigo-games-snowbreed\BepInEx\unhollowed\Vertigo.Animation.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Vertigo.VR">
       <HintPath>D:\Games\Oculus\Software\vertigo-games-snowbreed\BepInEx\unhollowed\Vertigo.VR.dll</HintPath>
       <Private>False</Private>
@@ -88,12 +92,14 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="bHaptics\EaterExplode.tact" />
     <None Include="bHaptics\ExplosionBelly.tact" />
     <None Include="bHaptics\ExplosionFeet.tact" />
     <None Include="bHaptics\FootStep_L.tact" />
     <None Include="bHaptics\FootStep_R.tact" />
     <None Include="bHaptics\Healing.tact" />
     <None Include="bHaptics\HeartBeat.tact" />
+    <None Include="bHaptics\JuggernautGrab.tact" />
     <None Include="bHaptics\RecoilArms_L.tact" />
     <None Include="bHaptics\RecoilArms_R.tact" />
     <None Include="bHaptics\RecoilHands_L.tact" />
@@ -103,6 +109,7 @@
     <None Include="bHaptics\RecoilShotgunVest_L.tact" />
     <None Include="bHaptics\RecoilShotgunVest_R.tact" />
     <None Include="bHaptics\Slash.tact" />
+    <None Include="bHaptics\SmasherStomp.tact" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

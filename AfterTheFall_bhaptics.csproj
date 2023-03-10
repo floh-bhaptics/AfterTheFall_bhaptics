@@ -110,9 +110,10 @@
     <None Include="bHaptics\RecoilShotgunVest_R.tact" />
     <None Include="bHaptics\Slash.tact" />
     <None Include="bHaptics\SmasherStomp.tact" />
+    <None Include="Properties\config.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>XCOPY "$(SolutionDir)bHaptics" "$(TargetDir)\bHaptics\" /S /Y</PostBuildEvent>
+    <PostBuildEvent>XCOPY "$(SolutionDir)libs\bhaptics_library.dll" "$(TargetDir)bhaptics_library.dll" /Y</PostBuildEvent>
   </PropertyGroup>
 </Project>

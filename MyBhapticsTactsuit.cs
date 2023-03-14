@@ -18,8 +18,6 @@ namespace MyBhapticsTactsuit
     {
         public bool suitDisabled = true;
         public bool systemInitialized = false;
-        public static float glideIntensity = 0.8f;
-        public static int glidePause = 300;
         // Event to start and stop the heartbeat thread
         private static ManualResetEvent HeartBeat_mrse = new ManualResetEvent(false);
         // dictionary of all feedback patterns found in the bHaptics directory

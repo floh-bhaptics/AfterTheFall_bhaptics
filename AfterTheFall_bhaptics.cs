@@ -9,6 +9,7 @@ using HarmonyLib;
 using MyBhapticsTactsuit;
 using Snowbreed.Client;
 using UnityEngine;
+using Il2CppSystem;
 using Vertigo.PlayerBody;
 using Vertigo.Snowbreed;
 using Vertigo.Snowbreed.Client;
@@ -34,35 +35,44 @@ namespace AfterTheFall_bhaptics
             harmony.PatchAll();
         }
 
-        [HarmonyPatch(typeof(Gun), "FireBullet", new Type[] { typeof(bool), typeof(bool) })]
+        [HarmonyPatch(typeof(Gun), "FireBullet", new System.Type[] { typeof(bool), typeof(bool) })]
         public class FireGun
         {
             public static void Postfix(Gun __instance)
             {
+                if(!__instance.IsEquippedLocally)
+                { 
+                    return;
+                }
                 bool isRight = (__instance.MainHandSide == Vertigo.VR.EHandSide.Right);
                 tactsuitVr.ShootRecoil("Pistol", isRight);
+                if(__instance.grabbedHands.Count == 2)
+                {
+                    tactsuitVr.PlaybackHaptics("RecoilHands" + (isRight ? "_L" : "_R"));
+                    tactsuitVr.PlaybackHaptics("RecoilArms" + (isRight ? "_L" : "_R"));
+                }
             }
         }
 
-        [HarmonyPatch(typeof(PlayerBodyHit), "Apply", new Type[] { typeof(PlayerBodyBehaviour), typeof(Quaternion), typeof(Vertigo.VertigoAnimation.IK.FBBIKJobData) })]
-        public class PlayerHit
+        [HarmonyPatch(typeof(ClientSnowbreedPlayerHealthModule), "ApplyDamage")]
+        public class PlayerOnDamaged
         {
-            public static void Postfix(PlayerBodyHit __instance)
+            public static void Postfix(ClientSnowbreedPlayerHealthModule __instance, Il2CppSystem.Nullable<Vector3> hitOrigin)
             {
-                //tactsuitVr.LOG("Direction: " + __instance.localHeadHitDirection.x.ToString() + " " + __instance.localHeadHitDirection.z.ToString());
-                Vector3 hitPosition = __instance.localHeadHitDirection;
-                Vector3 flattenedHit = new Vector3(hitPosition.x, 0f, hitPosition.z);
-                Vector3 patternOrigin = new Vector3(0f, 0f, 1f);
-                float earlyhitAngle = Vector3.Angle(flattenedHit, patternOrigin);
-                Vector3 earlycrossProduct = Vector3.Cross(flattenedHit, patternOrigin);
-                if (earlycrossProduct.y > 0f) { earlyhitAngle *= -1f; }
-                float myRotation = earlyhitAngle; //- playerDir.y;
-                myRotation *= -1f;
-                if (myRotation < 0f) { myRotation = 360f + myRotation; }
-                tactsuitVr.PlayBackHit("Slash", myRotation, 0.0f);
+                if (hitOrigin != null)
+                {
+                    Vector3 flattenedHit = new Vector3(hitOrigin.Value.x, 0f, hitOrigin.Value.z);
+                    Vector3 patternOrigin = new Vector3(0f, 0f, 1f);
+                    float earlyhitAngle = Vector3.Angle(flattenedHit, patternOrigin);
+                    Vector3 earlycrossProduct = Vector3.Cross(flattenedHit, patternOrigin);
+                    if (earlycrossProduct.y > 0f) { earlyhitAngle *= -1f; }
+                    float myRotation = earlyhitAngle; //- playerDir.y;
+                    myRotation *= -1f;
+                    if (myRotation < 0f) { myRotation = 360f + myRotation; }
+                    tactsuitVr.PlayBackHit("Slash", myRotation, 0.0f);
+                }
             }
         }
-
 
     }
 }

@@ -76,6 +76,38 @@ namespace AfterTheFall_bhaptics
                     if (myRotation < 0f) { myRotation = 360f + myRotation; }
                     //Log.LogWarning("Rotation " + myRotation);
                     tactsuitVr.PlayBackHit("Slash", myRotation, 0.0f);
+
+                    //Low Health
+                    if(__instance.Health < (__instance.MaxHealth * 25 / 100))
+                    {
+                        //start heartbeat lowhealth
+                        tactsuitVr.StartHeartBeat();
+                    }
+
+                    //Downed, frozen
+                    if (__instance.IsDead || __instance.IsDowned || __instance.isKilled)
+                    {
+                        tactsuitVr.PlaybackHaptics("ExplosionBelly");
+                        tactsuitVr.StopHeartBeat();
+                    }
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(ClientSnowbreedPlayerHealthModule), "ApplyHeal")]
+        public class PlayerOnHeal
+        {
+            public static void Postfix(ClientSnowbreedPlayerHealthModule __instance)
+            {
+                Vertigo.ECS.Entity localPawn = LightweightDebug.GetLocalPawn();
+                if (__instance.Entity.Name.Equals(localPawn.Name, System.StringComparison.OrdinalIgnoreCase))
+                {                    
+                    tactsuitVr.PlaybackHaptics("Healing");
+                    if (__instance.Health >= (__instance.MaxHealth * 25 / 100))
+                    {
+                        //stop heartbeat lowhealth
+                        tactsuitVr.StopHeartBeat();
+                    }
                 }
             }
         }

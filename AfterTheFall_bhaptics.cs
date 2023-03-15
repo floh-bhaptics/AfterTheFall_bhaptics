@@ -54,21 +54,27 @@ namespace AfterTheFall_bhaptics
             }
         }
 
-        [HarmonyPatch(typeof(ClientSnowbreedPlayerHealthModule), "ApplyDamage")]
+        [HarmonyPatch(typeof(SnowbreedPlayerHealthModule), "OnHit")]
         public class PlayerOnDamaged
         {
-            public static void Postfix(ClientSnowbreedPlayerHealthModule __instance, Il2CppSystem.Nullable<Vector3> hitOrigin)
+            public static void Postfix(SnowbreedPlayerHealthModule __instance, HitArgs args)
             {
-                if (hitOrigin != null)
+                Vertigo.ECS.Entity localPawn = LightweightDebug.GetLocalPawn();
+                if (__instance.Entity.Name.Equals(localPawn.Name, System.StringComparison.OrdinalIgnoreCase))
                 {
-                    Vector3 flattenedHit = new Vector3(hitOrigin.Value.x, 0f, hitOrigin.Value.z);
-                    Vector3 patternOrigin = new Vector3(0f, 0f, 1f);
+                    Vector3 flattenedHit = new Vector3(args.PlayerData.HitDirection.x, 0f, args.PlayerData.HitDirection.z);
+                    //initial hit vector seems a bit off
+                    Vector3 patternOrigin = new Vector3(0f, 0f, -1f);
                     float earlyhitAngle = Vector3.Angle(flattenedHit, patternOrigin);
+                    //Log.LogWarning("HIT " + args.PlayerData.HitDirection);
+                    //Log.LogWarning("Early angle " + earlyhitAngle);
                     Vector3 earlycrossProduct = Vector3.Cross(flattenedHit, patternOrigin);
+                    //Log.LogWarning("Early CROSS " + earlycrossProduct);
                     if (earlycrossProduct.y > 0f) { earlyhitAngle *= -1f; }
-                    float myRotation = earlyhitAngle; //- playerDir.y;
+                    float myRotation = earlyhitAngle;
                     myRotation *= -1f;
                     if (myRotation < 0f) { myRotation = 360f + myRotation; }
+                    //Log.LogWarning("Rotation " + myRotation);
                     tactsuitVr.PlayBackHit("Slash", myRotation, 0.0f);
                 }
             }

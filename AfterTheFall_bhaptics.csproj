@@ -79,6 +79,9 @@
       <HintPath>D:\Games\Oculus\Software\vertigo-games-snowbreed\BepInEx\unhollowed\Vertigo.Animation.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Vertigo.Core">
+      <HintPath>..\..\..\..\GAMES\OCULUS\Software\vertigo-games-snowbreed\BepInEx\unhollowed\Vertigo.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Vertigo.VR">
       <HintPath>D:\Games\Oculus\Software\vertigo-games-snowbreed\BepInEx\unhollowed\Vertigo.VR.dll</HintPath>
       <Private>False</Private>
@@ -123,6 +126,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>XCOPY "$(SolutionDir)libs\bhaptics_library.dll" "$(TargetDir)bhaptics_library.dll" /Y</PostBuildEvent>
+    <PostBuildEvent>XCOPY "$(SolutionDir)libs\bhaptics_library.dll" "$(TargetDir)bhaptics_library.dll" /Y
+XCOPY "$(TargetDir)AfterTheFall_bhaptics.dll" "D:\GAMES\OCULUS\Software\vertigo-games-snowbreed\BepInEx\plugins\AfterTheFall_bhaptics.dll" /Y
+</PostBuildEvent>
   </PropertyGroup>
 </Project>

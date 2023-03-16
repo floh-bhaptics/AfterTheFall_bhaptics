@@ -71,6 +71,7 @@ namespace AfterTheFall_bhaptics
         public class PlayerOnDamaged
         {
             // CHEAT GOD MODE
+            /*
             public static bool Prefix(SnowbreedPlayerHealthModule __instance)
             {
                 Vertigo.ECS.Entity localPawn = LightweightDebug.GetLocalPawn();
@@ -81,6 +82,8 @@ namespace AfterTheFall_bhaptics
                 // all AI as well => return false as well
                 else { return false; }
             }
+            */
+
             public static void Postfix(SnowbreedPlayerHealthModule __instance, HitArgs args)
             {
                 Vertigo.ECS.Entity localPawn = LightweightDebug.GetLocalPawn();

@@ -126,9 +126,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-		XCOPY "$(SolutionDir)libs\bhaptics_library.dll" "$(TargetDir)" /Y
-		XCOPY "$(TargetDir)AfterTheFall_bhaptics.dll" "D:\GAMES\OCULUS\Software\vertigo-games-snowbreed\BepInEx\plugins\AfterTheFall_bhaptics.dll" /Y
-	</PostBuildEvent>
+    <PostBuildEvent>XCOPY "$(SolutionDir)libs\bhaptics_library.dll" "$(TargetDir)" /Y	</PostBuildEvent>
   </PropertyGroup>
 </Project>

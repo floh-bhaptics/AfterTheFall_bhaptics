@@ -47,14 +47,14 @@
       <HintPath>libs\Bhaptics.Tact.dll</HintPath>
     </Reference>
     <Reference Include="Il2Cppmscorlib">
-      <HintPath>..\..\..\..\GAMES\OCULUS\Software\vertigo-games-snowbreed\BepInEx\unhollowed\Il2Cppmscorlib.dll</HintPath>
+      <HintPath>D:\GAMES\OCULUS\Software\vertigo-games-snowbreed\BepInEx\unhollowed\Il2Cppmscorlib.dll</HintPath>
     </Reference>
     <Reference Include="Snowbreed.Client">
       <HintPath>D:\Games\Oculus\Software\vertigo-games-snowbreed\BepInEx\unhollowed\Snowbreed.Client.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Snowbreed.Shared">
-      <HintPath>..\..\..\..\GAMES\OCULUS\Software\vertigo-games-snowbreed\BepInEx\unhollowed\Snowbreed.Shared.dll</HintPath>
+      <HintPath>D:\GAMES\OCULUS\Software\vertigo-games-snowbreed\BepInEx\unhollowed\Snowbreed.Shared.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -65,7 +65,7 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="UnhollowerBaseLib">
-      <HintPath>..\..\..\..\GAMES\OCULUS\Software\vertigo-games-snowbreed\BepInEx\core\UnhollowerBaseLib.dll</HintPath>
+      <HintPath>D:\GAMES\OCULUS\Software\vertigo-games-snowbreed\BepInEx\core\UnhollowerBaseLib.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>D:\Games\Oculus\Software\vertigo-games-snowbreed\BepInEx\unhollowed\UnityEngine.CoreModule.dll</HintPath>
@@ -126,8 +126,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>XCOPY "$(SolutionDir)libs\bhaptics_library.dll" "$(TargetDir)bhaptics_library.dll" /Y
-XCOPY "$(TargetDir)AfterTheFall_bhaptics.dll" "D:\GAMES\OCULUS\Software\vertigo-games-snowbreed\BepInEx\plugins\AfterTheFall_bhaptics.dll" /Y
-</PostBuildEvent>
+    <PostBuildEvent>XCOPY "$(SolutionDir)libs\bhaptics_library.dll" "$(TargetDir)" /Y</PostBuildEvent>
   </PropertyGroup>
 </Project>

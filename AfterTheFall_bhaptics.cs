@@ -128,7 +128,29 @@ namespace AfterTheFall_bhaptics
             public static void Postfix(ClientSessionGameSystem __instance)
             {
                 tactsuitVr.StopHeartBeat();
+                tactsuitVr.StopAllHapticFeedback();
                 tactsuitVr.PlaybackHaptics("Death");
+            }
+        }
+        
+        [HarmonyPatch(typeof(ClientExplosionGameSystem), "SpawnExplosion",
+            new System.Type[] { typeof(Vertigo.Snowbreed.Client.ExplosionTO), typeof(Vector3), typeof(Quaternion), typeof(uint)})]
+        public class OnExplosionSpawn
+        {
+            public static int explosionDistance = 25;
+            public static void Postfix(ClientExplosionGameSystem __instance, Vector3 position)
+            {
+                Vertigo.ECS.Entity localPawn = LightweightDebug.GetLocalPawn();
+                Vertigo.VRShooter.PawnTransformModule module = localPawn.GetModule<Vertigo.VRShooter.PawnTransformModule>();
+                float distance = Vector3.Distance(module.GroundPosition, position);
+
+                if (module != null && distance < explosionDistance)
+                {
+                    float intensity = (explosionDistance - distance) * 1.5f / explosionDistance;
+                    Log.LogWarning("EXPLOSION INTENSITY " + intensity);
+                    tactsuitVr.PlaybackHaptics("ExplosionBelly", intensity);
+                    tactsuitVr.PlaybackHaptics("ExplosionFeet", intensity);
+                }
             }
         }
 

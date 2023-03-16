@@ -104,28 +104,13 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="bHaptics\EaterExplode.tact" />
-    <None Include="bHaptics\ExplosionBelly.tact" />
-    <None Include="bHaptics\ExplosionFeet.tact" />
-    <None Include="bHaptics\FootStep_L.tact" />
-    <None Include="bHaptics\FootStep_R.tact" />
-    <None Include="bHaptics\Healing.tact" />
-    <None Include="bHaptics\HeartBeat.tact" />
-    <None Include="bHaptics\JuggernautGrab.tact" />
-    <None Include="bHaptics\RecoilArms_L.tact" />
-    <None Include="bHaptics\RecoilArms_R.tact" />
-    <None Include="bHaptics\RecoilHands_L.tact" />
-    <None Include="bHaptics\RecoilHands_R.tact" />
-    <None Include="bHaptics\RecoilPistolVest_L.tact" />
-    <None Include="bHaptics\RecoilPistolVest_R.tact" />
-    <None Include="bHaptics\RecoilShotgunVest_L.tact" />
-    <None Include="bHaptics\RecoilShotgunVest_R.tact" />
-    <None Include="bHaptics\Slash.tact" />
-    <None Include="bHaptics\SmasherStomp.tact" />
     <None Include="Properties\config.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>XCOPY "$(SolutionDir)libs\bhaptics_library.dll" "$(TargetDir)" /Y	</PostBuildEvent>
+    <PostBuildEvent>
+		  XCOPY "$(SolutionDir)libs\bhaptics_library.dll" "$(TargetDir)" /Y
+		  XCOPY "$(TargetDir)AfterTheFall_bhaptics.dll" "D:\GAMES\OCULUS\Software\vertigo-games-snowbreed\BepInEx\plugins\AfterTheFall_bhaptics.dll" /Y
+	  </PostBuildEvent>
   </PropertyGroup>
 </Project>

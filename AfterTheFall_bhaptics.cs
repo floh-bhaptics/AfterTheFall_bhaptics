@@ -14,6 +14,9 @@ using Vertigo.PlayerBody;
 using Vertigo.Snowbreed;
 using Vertigo.Snowbreed.Client;
 using static AfterTheFall_bhaptics.Plugin;
+using Vertigo.ECS;
+using Il2CppSystem.Collections;
+using UnhollowerBaseLib;
 
 namespace AfterTheFall_bhaptics
 {
@@ -38,15 +41,25 @@ namespace AfterTheFall_bhaptics
         [HarmonyPatch(typeof(Gun), "FireBullet", new System.Type[] { typeof(bool), typeof(bool) })]
         public class FireGun
         {
+            public static uint[] shotgunsIds = { 13 };
+
             public static void Postfix(Gun __instance)
             {
-                if(!__instance.IsEquippedLocally)
-                { 
+                if (!__instance.IsEquippedLocally)
+                {
                     return;
                 }
+                Log.LogWarning("AMMO TYPE " + __instance.GunData.AmmoType);
                 bool isRight = (__instance.MainHandSide == Vertigo.VR.EHandSide.Right);
-                tactsuitVr.ShootRecoil("Pistol", isRight);
-                if(__instance.grabbedHands.Count == 2)
+                if (shotgunsIds.Contains(__instance.GunData.AmmoType))
+                {
+                    tactsuitVr.ShootRecoil("Shotgun", isRight);
+                }
+                else
+                {
+                    tactsuitVr.ShootRecoil("Pistol", isRight);
+                }
+                if (__instance.grabbedHands.Count == 2)
                 {
                     tactsuitVr.PlaybackHaptics("RecoilHands" + (isRight ? "_L" : "_R"));
                     tactsuitVr.PlaybackHaptics("RecoilArms" + (isRight ? "_L" : "_R"));
@@ -57,6 +70,17 @@ namespace AfterTheFall_bhaptics
         [HarmonyPatch(typeof(SnowbreedPlayerHealthModule), "OnHit")]
         public class PlayerOnDamaged
         {
+            // CHEAT GOD MODE
+            public static bool Prefix(SnowbreedPlayerHealthModule __instance)
+            {
+                Vertigo.ECS.Entity localPawn = LightweightDebug.GetLocalPawn();
+                if (__instance.Entity.Name.Equals(localPawn.Name, System.StringComparison.OrdinalIgnoreCase))
+                {
+                    return false;
+                }
+                // all AI as well => return false as well
+                else { return false; }
+            }
             public static void Postfix(SnowbreedPlayerHealthModule __instance, HitArgs args)
             {
                 Vertigo.ECS.Entity localPawn = LightweightDebug.GetLocalPawn();
@@ -78,7 +102,7 @@ namespace AfterTheFall_bhaptics
                     tactsuitVr.PlayBackHit("Slash", myRotation, 0.0f);
 
                     //Low Health
-                    if(__instance.Health < (__instance.MaxHealth * 25 / 100))
+                    if (__instance.Health < (__instance.MaxHealth * 25 / 100))
                     {
                         //start heartbeat lowhealth
                         tactsuitVr.StartHeartBeat();
@@ -87,8 +111,9 @@ namespace AfterTheFall_bhaptics
                     //Downed, frozen
                     if (__instance.IsDead || __instance.IsDowned || __instance.isKilled)
                     {
-                        tactsuitVr.PlaybackHaptics("ExplosionBelly");
+                        tactsuitVr.PlaybackHaptics("Frozen");
                         tactsuitVr.StopHeartBeat();
+                        //TODO SLOW heartbeat instead ?? Stop it when full dead
                     }
                 }
             }
@@ -101,7 +126,7 @@ namespace AfterTheFall_bhaptics
             {
                 Vertigo.ECS.Entity localPawn = LightweightDebug.GetLocalPawn();
                 if (__instance.Entity.Name.Equals(localPawn.Name, System.StringComparison.OrdinalIgnoreCase))
-                {                    
+                {
                     tactsuitVr.PlaybackHaptics("Healing");
                     if (__instance.Health >= (__instance.MaxHealth * 25 / 100))
                     {
@@ -111,6 +136,20 @@ namespace AfterTheFall_bhaptics
                 }
             }
         }
-
+        /*
+        [HarmonyPatch(typeof(ClientGrabMeleeAttackModule), "StartAttack")]
+        public class PlayerOnGrabbedByJuggernaut
+        {
+            public static void Postfix(ClientGrabMeleeAttackModule __instance)
+            {
+                Log.LogWarning(__instance.Entity.Name);
+                Vertigo.ECS.Entity localPawn = LightweightDebug.GetLocalPawn();
+                if (__instance.Entity.Name.Equals(localPawn.Name, System.StringComparison.OrdinalIgnoreCase))
+                {
+                    tactsuitVr.PlaybackHaptics("JuggernautGrab");
+                }
+            }
+        }
+        */
     }
 }

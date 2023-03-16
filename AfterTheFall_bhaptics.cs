@@ -41,7 +41,7 @@ namespace AfterTheFall_bhaptics
         [HarmonyPatch(typeof(Gun), "FireBullet", new System.Type[] { typeof(bool), typeof(bool) })]
         public class FireGun
         {
-            public static uint[] shotgunsIds = { 13 };
+            public static uint[] shotgunsIds = { 13, 42 };
 
             public static void Postfix(Gun __instance)
             {
@@ -70,8 +70,8 @@ namespace AfterTheFall_bhaptics
         [HarmonyPatch(typeof(SnowbreedPlayerHealthModule), "OnHit")]
         public class PlayerOnDamaged
         {
-            // CHEAT GOD MODE
             /*
+            // CHEAT GOD MODE
             public static bool Prefix(SnowbreedPlayerHealthModule __instance)
             {
                 Vertigo.ECS.Entity localPawn = LightweightDebug.GetLocalPawn();
@@ -83,7 +83,6 @@ namespace AfterTheFall_bhaptics
                 else { return false; }
             }
             */
-
             public static void Postfix(SnowbreedPlayerHealthModule __instance, HitArgs args)
             {
                 Vertigo.ECS.Entity localPawn = LightweightDebug.GetLocalPawn();
@@ -108,17 +107,28 @@ namespace AfterTheFall_bhaptics
                     if (__instance.Health < (__instance.MaxHealth * 25 / 100))
                     {
                         //start heartbeat lowhealth
+                        TactsuitVR.heartBeatRate = 1000;
                         tactsuitVr.StartHeartBeat();
                     }
 
                     //Downed, frozen
-                    if (__instance.IsDead || __instance.IsDowned || __instance.isKilled)
+                    if (__instance.IsDowned)
                     {
                         tactsuitVr.PlaybackHaptics("Frozen");
-                        tactsuitVr.StopHeartBeat();
-                        //TODO SLOW heartbeat instead ?? Stop it when full dead
+                        TactsuitVR.heartBeatRate = 4000;
+                        tactsuitVr.StartHeartBeat();
                     }
                 }
+            }
+        }
+        
+        [HarmonyPatch(typeof(ClientSessionGameSystem), "HandleOnSessionStateChangedEvent")]
+        public class OnSessionStateChange
+        {
+            public static void Postfix(ClientSessionGameSystem __instance)
+            {
+                tactsuitVr.StopHeartBeat();
+                tactsuitVr.PlaybackHaptics("Death");
             }
         }
 
@@ -135,6 +145,12 @@ namespace AfterTheFall_bhaptics
                     {
                         //stop heartbeat lowhealth
                         tactsuitVr.StopHeartBeat();
+                    }
+                    else
+                    {
+                        //start heartbeat lowhealth in case you healed from frozen state and not enough health
+                        TactsuitVR.heartBeatRate = 1000;
+                        tactsuitVr.StartHeartBeat();
                     }
                 }
             }

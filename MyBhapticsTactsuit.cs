@@ -20,6 +20,7 @@ namespace MyBhapticsTactsuit
         public bool systemInitialized = false;
         // Event to start and stop the heartbeat thread
         private static ManualResetEvent HeartBeat_mrse = new ManualResetEvent(false);
+        private static ManualResetEvent ZombieGrab_mrse = new ManualResetEvent(false);
         // dictionary of all feedback patterns found in the bHaptics directory
         public Dictionary<String, String> FeedbackMap = new Dictionary<String, String>();
         public static int heartBeatRate = 1000;
@@ -32,6 +33,16 @@ namespace MyBhapticsTactsuit
                 HeartBeat_mrse.WaitOne();
                 PlaybackHaptics("HeartBeat");
                 Thread.Sleep(heartBeatRate);
+            }
+        }
+        public void ZombieGrabFunc()
+        {
+            while (true)
+            {
+                // Check if reset event is active
+                ZombieGrab_mrse.WaitOne();
+                PlaybackHaptics("JuggernautGrab");
+                Thread.Sleep(2000);
             }
         }
 
@@ -49,6 +60,8 @@ namespace MyBhapticsTactsuit
             LOG("Starting HeartBeat thread...");
             Thread HeartBeatThread = new Thread(HeartBeatFunc);
             HeartBeatThread.Start();
+            Thread ZombieGrabThread = new Thread(ZombieGrabFunc);
+            ZombieGrabThread.Start();
         }
 
         public void LOG(string logStr)
@@ -87,6 +100,15 @@ namespace MyBhapticsTactsuit
             BhapticsSDK2.Play(keyVest.ToLower(), intensity, duration, 0f, 0f);
         }
 
+        public void StartZombieGrab()
+        {
+            ZombieGrab_mrse.Set();
+        }
+
+        public void StopZombieGrab()
+        {
+            ZombieGrab_mrse.Reset();
+        }
 
         public void StartHeartBeat()
         {
@@ -112,6 +134,7 @@ namespace MyBhapticsTactsuit
         public void StopThreads()
         {
             StopHeartBeat();
+            StopZombieGrab();
         }
 
 

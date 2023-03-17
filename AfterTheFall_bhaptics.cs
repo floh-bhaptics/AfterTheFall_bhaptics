@@ -49,7 +49,7 @@ namespace AfterTheFall_bhaptics
                 {
                     return;
                 }
-                Log.LogWarning("AMMO TYPE " + __instance.GunData.AmmoType);
+                //Log.LogWarning("AMMO TYPE " + __instance.GunData.AmmoType);
                 bool isRight = (__instance.MainHandSide == Vertigo.VR.EHandSide.Right);
                 if (shotgunsIds.Contains(__instance.GunData.AmmoType))
                 {
@@ -70,7 +70,7 @@ namespace AfterTheFall_bhaptics
         [HarmonyPatch(typeof(SnowbreedPlayerHealthModule), "OnHit")]
         public class PlayerOnDamaged
         {
-            /*
+            
             // CHEAT GOD MODE
             public static bool Prefix(SnowbreedPlayerHealthModule __instance)
             {
@@ -82,7 +82,7 @@ namespace AfterTheFall_bhaptics
                 // all AI as well => return false as well
                 else { return false; }
             }
-            */
+            
             public static void Postfix(SnowbreedPlayerHealthModule __instance, HitArgs args)
             {
                 Vertigo.ECS.Entity localPawn = LightweightDebug.GetLocalPawn();
@@ -147,7 +147,7 @@ namespace AfterTheFall_bhaptics
                 if (module != null && distance < explosionDistance)
                 {
                     float intensity = (explosionDistance - distance) * 1.5f / explosionDistance;
-                    Log.LogWarning("EXPLOSION INTENSITY " + intensity);
+                    //Log.LogWarning("EXPLOSION INTENSITY " + intensity);
                     tactsuitVr.PlaybackHaptics("ExplosionBelly", intensity);
                     tactsuitVr.PlaybackHaptics("ExplosionFeet", intensity);
                 }
@@ -177,20 +177,32 @@ namespace AfterTheFall_bhaptics
                 }
             }
         }
-        /*
-        [HarmonyPatch(typeof(ClientGrabMeleeAttackModule), "StartAttack")]
-        public class PlayerOnGrabbedByJuggernaut
+        
+        [HarmonyPatch(typeof(ZombieGrabAttackView), "Start")]
+        public class PlayerOnGrabbedByJuggernautStart
         {
-            public static void Postfix(ClientGrabMeleeAttackModule __instance)
+            public static void Postfix(ZombieGrabAttackView __instance, IClientAttackableTarget target)
             {
-                Log.LogWarning(__instance.Entity.Name);
                 Vertigo.ECS.Entity localPawn = LightweightDebug.GetLocalPawn();
-                if (__instance.Entity.Name.Equals(localPawn.Name, System.StringComparison.OrdinalIgnoreCase))
+                if (target.Entity.Name.Equals(localPawn.Name, System.StringComparison.OrdinalIgnoreCase))
                 {
-                    tactsuitVr.PlaybackHaptics("JuggernautGrab");
+                    tactsuitVr.StartZombieGrab();
                 }
             }
         }
-        */
+
+        [HarmonyPatch(typeof(ZombieGrabAttackView), "Stop")]
+        public class PlayerOnGrabbedByJuggernautStop
+        {
+            public static void Postfix(ZombieGrabAttackView __instance)
+            {
+                Vertigo.ECS.Entity localPawn = LightweightDebug.GetLocalPawn();
+                if (__instance.targetEntityModuleData.targetPawnTrackedTransform.Entity.Name.Equals(
+                    localPawn.Name, System.StringComparison.OrdinalIgnoreCase))
+                {
+                    tactsuitVr.StopZombieGrab();
+                }
+            }
+        }
     }
 }

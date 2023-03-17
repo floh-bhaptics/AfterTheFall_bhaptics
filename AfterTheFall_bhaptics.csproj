@@ -48,6 +48,7 @@
     </Reference>
     <Reference Include="Il2Cppmscorlib">
       <HintPath>D:\GAMES\OCULUS\Software\vertigo-games-snowbreed\BepInEx\unhollowed\Il2Cppmscorlib.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Snowbreed.Client">
       <HintPath>D:\Games\Oculus\Software\vertigo-games-snowbreed\BepInEx\unhollowed\Snowbreed.Client.dll</HintPath>
@@ -55,6 +56,7 @@
     </Reference>
     <Reference Include="Snowbreed.Shared">
       <HintPath>D:\GAMES\OCULUS\Software\vertigo-games-snowbreed\BepInEx\unhollowed\Snowbreed.Shared.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -66,6 +68,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="UnhollowerBaseLib">
       <HintPath>D:\GAMES\OCULUS\Software\vertigo-games-snowbreed\BepInEx\core\UnhollowerBaseLib.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>D:\Games\Oculus\Software\vertigo-games-snowbreed\BepInEx\unhollowed\UnityEngine.CoreModule.dll</HintPath>
@@ -81,6 +84,7 @@
     </Reference>
     <Reference Include="Vertigo.Core">
       <HintPath>D:\Games\Oculus\Software\vertigo-games-snowbreed\BepInEx\unhollowed\Vertigo.Core.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Vertigo.VR">
       <HintPath>D:\Games\Oculus\Software\vertigo-games-snowbreed\BepInEx\unhollowed\Vertigo.VR.dll</HintPath>
@@ -109,8 +113,6 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-		  XCOPY "$(SolutionDir)libs\bhaptics_library.dll" "$(TargetDir)" /Y
-		  XCOPY "$(TargetDir)AfterTheFall_bhaptics.dll" "D:\GAMES\OCULUS\Software\vertigo-games-snowbreed\BepInEx\plugins\AfterTheFall_bhaptics.dll" /Y
-	  </PostBuildEvent>
+		  XCOPY "$(SolutionDir)libs\bhaptics_library.dll" "$(TargetDir)" /Y</PostBuildEvent>
   </PropertyGroup>
 </Project>

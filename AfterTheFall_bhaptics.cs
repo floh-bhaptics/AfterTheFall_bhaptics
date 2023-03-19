@@ -17,6 +17,8 @@ using static AfterTheFall_bhaptics.Plugin;
 using Vertigo.ECS;
 using Il2CppSystem.Collections;
 using UnhollowerBaseLib;
+using Vertigo.VRShooter;
+using Vertigo.VR;
 
 namespace AfterTheFall_bhaptics
 {
@@ -70,7 +72,7 @@ namespace AfterTheFall_bhaptics
         [HarmonyPatch(typeof(SnowbreedPlayerHealthModule), "OnHit")]
         public class PlayerOnDamaged
         {
-            
+            /*
             // CHEAT GOD MODE
             public static bool Prefix(SnowbreedPlayerHealthModule __instance)
             {
@@ -82,14 +84,13 @@ namespace AfterTheFall_bhaptics
                 // all AI as well => return false as well
                 else { return false; }
             }
-            
+            */
             public static void Postfix(SnowbreedPlayerHealthModule __instance, HitArgs args)
             {
                 Vertigo.ECS.Entity localPawn = LightweightDebug.GetLocalPawn();
                 if (__instance.Entity.Name.Equals(localPawn.Name, System.StringComparison.OrdinalIgnoreCase))
                 {
                     Vector3 flattenedHit = new Vector3(args.PlayerData.HitDirection.x, 0f, args.PlayerData.HitDirection.z);
-                    //initial hit vector seems a bit off
                     Vector3 patternOrigin = new Vector3(0f, 0f, -1f);
                     float earlyhitAngle = Vector3.Angle(flattenedHit, patternOrigin);
                     //Log.LogWarning("HIT " + args.PlayerData.HitDirection);
@@ -197,10 +198,136 @@ namespace AfterTheFall_bhaptics
             public static void Postfix(ZombieGrabAttackView __instance)
             {
                 Vertigo.ECS.Entity localPawn = LightweightDebug.GetLocalPawn();
-                if (__instance.targetEntityModuleData.targetPawnTrackedTransform.Entity.Name.Equals(
-                    localPawn.Name, System.StringComparison.OrdinalIgnoreCase))
+                try
+                {
+                    if (__instance.targetEntityModuleData.targetPawnTrackedTransform.Entity.Name.Equals(
+                        localPawn.Name, System.StringComparison.OrdinalIgnoreCase))
+                    {
+                        tactsuitVr.StopZombieGrab();
+                    }
+                } catch (System.Exception e)
                 {
                     tactsuitVr.StopZombieGrab();
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(MissileCombatDeviceLocalController), "StopUse")]
+        public class OnCombatDeviceItemUse
+        {
+            public static void Postfix(MissileCombatDeviceLocalController __instance)
+            {
+                Vertigo.ECS.Entity localPawn = LightweightDebug.GetLocalPawn();
+                if (__instance.Owner.identityModule.Entity.Name.Equals(
+                    localPawn.Name, System.StringComparison.OrdinalIgnoreCase) && __instance.Owner.CanBeActivated)
+                {
+                    tactsuitVr.PlaybackHaptics("RecoilHands_" + (__instance.Owner.isEquippedOnLeftHand ? "L" : "R"), 4.0f, 2.0f);
+                    tactsuitVr.PlaybackHaptics("CombatDeviceArms_" + (__instance.Owner.isEquippedOnLeftHand ? "L" : "R"), 4.0f, 2.0f);
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(ShockwavePunchDeviceItem), "SpawnExplosion")]
+        public class OnShockwavePunchDeviceItemUse
+        {
+            public static void Postfix(ShockwavePunchDeviceItem __instance)
+            {
+                Vertigo.ECS.Entity localPawn = LightweightDebug.GetLocalPawn();
+                if (__instance.identityModule.Entity.Name.Equals(
+                    localPawn.Name, System.StringComparison.OrdinalIgnoreCase))
+                {
+                    tactsuitVr.PlaybackHaptics("RecoilHands_" + (__instance.isEquippedOnLeftHand ? "L" : "R"), 4.0f, 2.0f);
+                    tactsuitVr.PlaybackHaptics("CombatDeviceArms_" + (__instance.isEquippedOnLeftHand ? "L" : "R"), 4.0f, 2.0f);
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(SawbladeDeviceItem), "StopUse")]
+        public class OnSawbladeDeviceItemUse
+        {
+            public static void Postfix(SawbladeDeviceItem __instance)
+            {
+                Vertigo.ECS.Entity localPawn = LightweightDebug.GetLocalPawn();
+                if (__instance.identityModule.Entity.Name.Equals(
+                    localPawn.Name, System.StringComparison.OrdinalIgnoreCase) && __instance.CanBeActivated)
+                {
+                    tactsuitVr.PlaybackHaptics("RecoilHands_" + (__instance.isEquippedOnLeftHand ? "L" : "R"), 4.0f, 2.0f);
+                    tactsuitVr.PlaybackHaptics("CombatDeviceArms_" + (__instance.isEquippedOnLeftHand ? "L" : "R"), 4.0f, 2.0f);
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(ZiplineAttachableTransform), "StartZiplining")]
+        public class OnZipLineEnter
+        {
+            public static void Postfix(ZiplineAttachableTransform __instance, Entity pawn, EHandSide handSide)
+            {
+                Vertigo.ECS.Entity localPawn = LightweightDebug.GetLocalPawn();
+                if (pawn.Name.Equals(
+                    localPawn.Name, System.StringComparison.OrdinalIgnoreCase))
+                {
+                    TactsuitVR.ziplineHand = (handSide == EHandSide.Right) ? "R" : "L";
+                    tactsuitVr.StartZipline();
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(Zipline), "StopUse")]
+        public class OnZipLineExit
+        {
+            public static void Postfix(Zipline __instance, Entity pawn)
+            {
+                Vertigo.ECS.Entity localPawn = LightweightDebug.GetLocalPawn();
+                if (pawn.Name.Equals(
+                    localPawn.Name, System.StringComparison.OrdinalIgnoreCase))
+                {
+                    tactsuitVr.StopZipline();
+                }
+            }
+        }
+        /*
+        [HarmonyPatch(typeof(BoosterSpeedBuffCommand), "ApplyBoost")]
+        public class OnRageBoosterStart
+        {
+            public static void Postfix(BoosterSpeedBuffCommand __instance, Entity user)
+            {
+                Log.LogMessage("RAGE START");
+                Vertigo.ECS.Entity localPawn = LightweightDebug.GetLocalPawn();
+                if (user.Name.Equals(
+                    localPawn.Name, System.StringComparison.OrdinalIgnoreCase))
+                {
+                    TactsuitVR.heartBeatRate = 500;
+                    tactsuitVr.StartHeartBeat();
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(BoosterSpeedBuffCommand), "StopBoost")]
+        public class OnRageBoosterStop
+        {
+            public static void Postfix(BoosterSpeedBuffCommand __instance, Entity user)
+            {
+                Log.LogMessage("RAGE STOP");
+                Vertigo.ECS.Entity localPawn = LightweightDebug.GetLocalPawn();
+                if (user.Name.Equals(
+                    localPawn.Name, System.StringComparison.OrdinalIgnoreCase))
+                {
+                    tactsuitVr.StopHeartBeat();
+                }
+            }
+        }
+        */
+        [HarmonyPatch(typeof(ClientPadlock), "HandleOnHandEnterDetectionVolumeEvent")]
+        public class OnClientPadlock
+        {
+            public static void Postfix(ClientPadlock __instance, Entity entity, Vertigo.VR.EHandSide handSide)
+            {
+                Vertigo.ECS.Entity localPawn = LightweightDebug.GetLocalPawn();
+                if (entity.Name.Equals(
+                    localPawn.Name, System.StringComparison.OrdinalIgnoreCase))
+                {
+                    tactsuitVr.PlaybackHaptics("RecoilHands_" + (handSide == Vertigo.VR.EHandSide.Right ? "R" : "L"));
+                    tactsuitVr.PlaybackHaptics("RecoilArms_" + (handSide == Vertigo.VR.EHandSide.Right ? "R" : "L"));
                 }
             }
         }

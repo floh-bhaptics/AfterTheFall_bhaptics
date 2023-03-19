@@ -21,9 +21,11 @@ namespace MyBhapticsTactsuit
         // Event to start and stop the heartbeat thread
         private static ManualResetEvent HeartBeat_mrse = new ManualResetEvent(false);
         private static ManualResetEvent ZombieGrab_mrse = new ManualResetEvent(false);
+        private static ManualResetEvent ZipLine_mrse = new ManualResetEvent(false);
         // dictionary of all feedback patterns found in the bHaptics directory
         public Dictionary<String, String> FeedbackMap = new Dictionary<String, String>();
         public static int heartBeatRate = 1000;
+        public static string ziplineHand = "";
 
         public void HeartBeatFunc()
         {
@@ -45,6 +47,18 @@ namespace MyBhapticsTactsuit
                 Thread.Sleep(2000);
             }
         }
+        public void ZipLineFunc()
+        {
+            while (true)
+            {
+                // Check if reset event is active
+                ZipLine_mrse.WaitOne();
+                PlaybackHaptics("RecoilHands_" + ziplineHand);
+                PlaybackHaptics("RecoilArms_" + ziplineHand); 
+                PlaybackHaptics("RecoilPistolVest_" + ziplineHand);
+                Thread.Sleep(500);
+            }
+        }
 
         public TactsuitVR()
         {
@@ -62,6 +76,8 @@ namespace MyBhapticsTactsuit
             HeartBeatThread.Start();
             Thread ZombieGrabThread = new Thread(ZombieGrabFunc);
             ZombieGrabThread.Start();
+            Thread ZipLineThread = new Thread(ZipLineFunc);
+            ZipLineThread.Start();
         }
 
         public void LOG(string logStr)
@@ -100,6 +116,16 @@ namespace MyBhapticsTactsuit
             BhapticsSDK2.Play(keyVest.ToLower(), intensity, duration, 0f, 0f);
         }
 
+        public void StartZipline()
+        {
+            ZipLine_mrse.Set();
+        }
+
+        public void StopZipline()
+        {
+            ZipLine_mrse.Reset();
+        }
+
         public void StartZombieGrab()
         {
             ZombieGrab_mrse.Set();
@@ -135,6 +161,7 @@ namespace MyBhapticsTactsuit
         {
             StopHeartBeat();
             StopZombieGrab();
+            StopZipline();
         }
 
 

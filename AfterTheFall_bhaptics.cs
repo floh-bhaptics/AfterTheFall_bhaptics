@@ -7,7 +7,6 @@ using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
 using MyBhapticsTactsuit;
-using Snowbreed.Client;
 using UnityEngine;
 using Il2CppSystem;
 using Vertigo.PlayerBody;
@@ -19,6 +18,7 @@ using Il2CppSystem.Collections;
 using UnhollowerBaseLib;
 using Vertigo.VRShooter;
 using Vertigo.VR;
+using Unity.Entities;
 
 namespace AfterTheFall_bhaptics
 {
@@ -130,7 +130,10 @@ namespace AfterTheFall_bhaptics
             {
                 tactsuitVr.StopHeartBeat();
                 tactsuitVr.StopAllHapticFeedback();
-                tactsuitVr.PlaybackHaptics("Death");
+                if(__instance.SessionEndingType == SessionGameSystem.ESessionEndingType.Failed)
+                {
+                    tactsuitVr.PlaybackHaptics("Death");
+                }
             }
         }
         
@@ -148,7 +151,6 @@ namespace AfterTheFall_bhaptics
                 if (module != null && distance < explosionDistance)
                 {
                     float intensity = (explosionDistance - distance) * 1.5f / explosionDistance;
-                    //Log.LogWarning("EXPLOSION INTENSITY " + intensity);
                     tactsuitVr.PlaybackHaptics("ExplosionBelly", intensity);
                     tactsuitVr.PlaybackHaptics("ExplosionFeet", intensity);
                 }
@@ -205,7 +207,7 @@ namespace AfterTheFall_bhaptics
                     {
                         tactsuitVr.StopZombieGrab();
                     }
-                } catch (System.Exception e)
+                } catch (System.Exception)
                 {
                     tactsuitVr.StopZombieGrab();
                 }
@@ -260,7 +262,7 @@ namespace AfterTheFall_bhaptics
         [HarmonyPatch(typeof(ZiplineAttachableTransform), "StartZiplining")]
         public class OnZipLineEnter
         {
-            public static void Postfix(ZiplineAttachableTransform __instance, Entity pawn, EHandSide handSide)
+            public static void Postfix(ZiplineAttachableTransform __instance, Vertigo.ECS.Entity pawn, EHandSide handSide)
             {
                 Vertigo.ECS.Entity localPawn = LightweightDebug.GetLocalPawn();
                 if (pawn.Name.Equals(
@@ -275,7 +277,7 @@ namespace AfterTheFall_bhaptics
         [HarmonyPatch(typeof(Zipline), "StopUse")]
         public class OnZipLineExit
         {
-            public static void Postfix(Zipline __instance, Entity pawn)
+            public static void Postfix(Zipline __instance, Vertigo.ECS.Entity pawn)
             {
                 Vertigo.ECS.Entity localPawn = LightweightDebug.GetLocalPawn();
                 if (pawn.Name.Equals(
@@ -320,7 +322,7 @@ namespace AfterTheFall_bhaptics
         [HarmonyPatch(typeof(ClientPadlock), "HandleOnHandEnterDetectionVolumeEvent")]
         public class OnClientPadlock
         {
-            public static void Postfix(ClientPadlock __instance, Entity entity, Vertigo.VR.EHandSide handSide)
+            public static void Postfix(ClientPadlock __instance, Vertigo.ECS.Entity entity, Vertigo.VR.EHandSide handSide)
             {
                 Vertigo.ECS.Entity localPawn = LightweightDebug.GetLocalPawn();
                 if (entity.Name.Equals(
@@ -329,6 +331,71 @@ namespace AfterTheFall_bhaptics
                     tactsuitVr.PlaybackHaptics("RecoilHands_" + (handSide == Vertigo.VR.EHandSide.Right ? "R" : "L"));
                     tactsuitVr.PlaybackHaptics("RecoilArms_" + (handSide == Vertigo.VR.EHandSide.Right ? "R" : "L"));
                 }
+            }
+        }
+
+        [HarmonyPatch(typeof(PlayerAudioModule), "PlayFootstepLocalPlayer")]
+        public class bhaptics_FootStep
+        {
+            private static bool rightFoot = false;
+
+            [HarmonyPostfix]
+            public static void Postfix(PlayerAudioModule __instance)
+            {
+                Vertigo.ECS.Entity localPawn = LightweightDebug.GetLocalPawn();
+                if (__instance.Entity.Name.Equals(
+                    localPawn.Name, System.StringComparison.OrdinalIgnoreCase))
+                {
+                    tactsuitVr.PlaybackHaptics("FootStep_" + (bhaptics_FootStep.rightFoot ? "R" : "L"));
+                    bhaptics_FootStep.rightFoot = !bhaptics_FootStep.rightFoot;
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(Gun), "OnMagazineEjected")]
+        public class bhaptics_EjectMagazine
+        {
+            [HarmonyPostfix]
+            public static void Postfix(Gun __instance)
+            {
+                if (!__instance.IsEquippedLocally)
+                {
+                    return;
+                }
+                tactsuitVr.PlaybackHaptics("RecoilHands_" + (__instance.MainHandSide == Vertigo.VR.EHandSide.Right ? "R" : "L"), 0.5f);
+                tactsuitVr.PlaybackHaptics("RecoilArms_" + (__instance.MainHandSide == Vertigo.VR.EHandSide.Right ? "R" : "L"), 0.5f);
+            }
+        }
+
+        [HarmonyPatch(typeof(GunAmmoInserter), "HandleAmmoInsertedEvent")]
+        public class bhaptics_Reloading
+        {
+            [HarmonyPostfix]
+            public static void Postfix(GunAmmoInserter __instance)
+            {
+                if (!__instance.gun.IsEquippedLocally)
+                {
+                    return;
+                }
+
+                tactsuitVr.PlaybackHaptics("RecoilHands_" + (__instance.gun.MainHandSide == Vertigo.VR.EHandSide.Right ? "R" : "L"), 0.5f);
+                tactsuitVr.PlaybackHaptics("RecoilArms_" + (__instance.gun.MainHandSide == Vertigo.VR.EHandSide.Right ? "R" : "L"), 0.5f);
+            }
+        }
+
+        [HarmonyPatch(typeof(GunAmmoInserter), "HandleMagInserterHandleFullyInsertedEvent")]
+        public class bhaptics_Reloaded
+        {
+            [HarmonyPostfix]
+            public static void Postfix(GunAmmoInserter __instance)
+            {
+                if (!__instance.gun.IsEquippedLocally)
+                {
+                    return;
+                }
+
+                tactsuitVr.PlaybackHaptics("RecoilHands_" + (__instance.gun.MainHandSide == Vertigo.VR.EHandSide.Right ? "R" : "L"), 0.5f);
+                tactsuitVr.PlaybackHaptics("RecoilArms_" + (__instance.gun.MainHandSide == Vertigo.VR.EHandSide.Right ? "R" : "L"), 0.5f);
             }
         }
     }

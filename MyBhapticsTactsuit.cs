@@ -22,8 +22,6 @@ namespace MyBhapticsTactsuit
         private static ManualResetEvent HeartBeat_mrse = new ManualResetEvent(false);
         private static ManualResetEvent ZombieGrab_mrse = new ManualResetEvent(false);
         private static ManualResetEvent ZipLine_mrse = new ManualResetEvent(false);
-        // dictionary of all feedback patterns found in the bHaptics directory
-        public Dictionary<String, String> FeedbackMap = new Dictionary<String, String>();
         public static int heartBeatRate = 1000;
         public static string ziplineHand = "";
 

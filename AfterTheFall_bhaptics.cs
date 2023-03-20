@@ -72,19 +72,6 @@ namespace AfterTheFall_bhaptics
         [HarmonyPatch(typeof(SnowbreedPlayerHealthModule), "OnHit")]
         public class PlayerOnDamaged
         {
-            /*
-            // CHEAT GOD MODE
-            public static bool Prefix(SnowbreedPlayerHealthModule __instance)
-            {
-                Vertigo.ECS.Entity localPawn = LightweightDebug.GetLocalPawn();
-                if (__instance.Entity.Name.Equals(localPawn.Name, System.StringComparison.OrdinalIgnoreCase))
-                {
-                    return false;
-                }
-                // all AI as well => return false as well
-                else { return false; }
-            }
-            */
             public static void Postfix(SnowbreedPlayerHealthModule __instance, HitArgs args)
             {
                 Vertigo.ECS.Entity localPawn = LightweightDebug.GetLocalPawn();

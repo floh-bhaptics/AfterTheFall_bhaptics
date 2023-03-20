@@ -316,7 +316,7 @@ namespace AfterTheFall_bhaptics
                     localPawn.Name, System.StringComparison.OrdinalIgnoreCase))
                 {
                     tactsuitVr.PlaybackHaptics("RecoilHands_" + (handSide == Vertigo.VR.EHandSide.Right ? "R" : "L"));
-                    tactsuitVr.PlaybackHaptics("RecoilArms_" + (handSide == Vertigo.VR.EHandSide.Right ? "R" : "L"));
+                    tactsuitVr.PlaybackHaptics("PadlockArms_" + (handSide == Vertigo.VR.EHandSide.Right ? "R" : "L"));
                 }
             }
         }
@@ -350,7 +350,7 @@ namespace AfterTheFall_bhaptics
                     return;
                 }
                 tactsuitVr.PlaybackHaptics("RecoilHands_" + (__instance.MainHandSide == Vertigo.VR.EHandSide.Right ? "R" : "L"), 0.5f);
-                tactsuitVr.PlaybackHaptics("RecoilArms_" + (__instance.MainHandSide == Vertigo.VR.EHandSide.Right ? "R" : "L"), 0.5f);
+                tactsuitVr.PlaybackHaptics("MagazineArms_" + (__instance.MainHandSide == Vertigo.VR.EHandSide.Right ? "R" : "L"), 0.5f);
             }
         }
 
@@ -366,7 +366,7 @@ namespace AfterTheFall_bhaptics
                 }
 
                 tactsuitVr.PlaybackHaptics("RecoilHands_" + (__instance.gun.MainHandSide == Vertigo.VR.EHandSide.Right ? "R" : "L"), 0.5f);
-                tactsuitVr.PlaybackHaptics("RecoilArms_" + (__instance.gun.MainHandSide == Vertigo.VR.EHandSide.Right ? "R" : "L"), 0.5f);
+                tactsuitVr.PlaybackHaptics("MagazineArms_" + (__instance.gun.MainHandSide == Vertigo.VR.EHandSide.Right ? "R" : "L"), 0.5f);
             }
         }
 
@@ -382,7 +382,7 @@ namespace AfterTheFall_bhaptics
                 }
 
                 tactsuitVr.PlaybackHaptics("RecoilHands_" + (__instance.gun.MainHandSide == Vertigo.VR.EHandSide.Right ? "R" : "L"), 0.5f);
-                tactsuitVr.PlaybackHaptics("RecoilArms_" + (__instance.gun.MainHandSide == Vertigo.VR.EHandSide.Right ? "R" : "L"), 0.5f);
+                tactsuitVr.PlaybackHaptics("MagazineLoadedArms_" + (__instance.gun.MainHandSide == Vertigo.VR.EHandSide.Right ? "R" : "L"), 0.5f);
             }
         }
     }

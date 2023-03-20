@@ -52,8 +52,8 @@ namespace MyBhapticsTactsuit
                 // Check if reset event is active
                 ZipLine_mrse.WaitOne();
                 PlaybackHaptics("RecoilHands_" + ziplineHand);
-                PlaybackHaptics("RecoilArms_" + ziplineHand); 
-                PlaybackHaptics("RecoilPistolVest_" + ziplineHand);
+                PlaybackHaptics("ZiplineArms_" + ziplineHand); 
+                PlaybackHaptics("ZiplineVest_" + ziplineHand);
                 Thread.Sleep(500);
             }
         }

@@ -53,18 +53,14 @@ namespace AfterTheFall_bhaptics
                 }
                 //Log.LogWarning("AMMO TYPE " + __instance.GunData.AmmoType);
                 bool isRight = (__instance.MainHandSide == Vertigo.VR.EHandSide.Right);
+                bool dualWield = (__instance.grabbedHands.Count == 2);
                 if (shotgunsIds.Contains(__instance.GunData.AmmoType))
                 {
-                    tactsuitVr.ShootRecoil("Shotgun", isRight);
+                    tactsuitVr.ShootRecoil("Shotgun", isRight, dualWield);
                 }
                 else
                 {
-                    tactsuitVr.ShootRecoil("Pistol", isRight);
-                }
-                if (__instance.grabbedHands.Count == 2)
-                {
-                    tactsuitVr.PlaybackHaptics("RecoilHands" + (isRight ? "_L" : "_R"));
-                    tactsuitVr.PlaybackHaptics("RecoilArms" + (isRight ? "_L" : "_R"));
+                    tactsuitVr.ShootRecoil("Pistol", isRight, dualWield);
                 }
             }
         }
@@ -140,6 +136,7 @@ namespace AfterTheFall_bhaptics
                     float intensity = (explosionDistance - distance) * 1.5f / explosionDistance;
                     tactsuitVr.PlaybackHaptics("ExplosionBelly", intensity);
                     tactsuitVr.PlaybackHaptics("ExplosionFeet", intensity);
+                    tactsuitVr.PlaybackHaptics("ExplosionHead", intensity);
                 }
             }
         }
@@ -210,8 +207,8 @@ namespace AfterTheFall_bhaptics
                 if (__instance.Owner.identityModule.Entity.Name.Equals(
                     localPawn.Name, System.StringComparison.OrdinalIgnoreCase) && __instance.Owner.CanBeActivated)
                 {
-                    tactsuitVr.PlaybackHaptics("RecoilHands_" + (__instance.Owner.isEquippedOnLeftHand ? "L" : "R"), 4.0f, 2.0f);
-                    tactsuitVr.PlaybackHaptics("CombatDeviceArms_" + (__instance.Owner.isEquippedOnLeftHand ? "L" : "R"), 4.0f, 2.0f);
+                    tactsuitVr.PlaybackHaptics("MissilesHands_" + (__instance.Owner.isEquippedOnLeftHand ? "L" : "R"));
+                    tactsuitVr.PlaybackHaptics("MissilesArms_" + (__instance.Owner.isEquippedOnLeftHand ? "L" : "R"));
                 }
             }
         }
@@ -225,8 +222,8 @@ namespace AfterTheFall_bhaptics
                 if (__instance.identityModule.Entity.Name.Equals(
                     localPawn.Name, System.StringComparison.OrdinalIgnoreCase))
                 {
-                    tactsuitVr.PlaybackHaptics("RecoilHands_" + (__instance.isEquippedOnLeftHand ? "L" : "R"), 4.0f, 2.0f);
-                    tactsuitVr.PlaybackHaptics("CombatDeviceArms_" + (__instance.isEquippedOnLeftHand ? "L" : "R"), 4.0f, 2.0f);
+                    tactsuitVr.PlaybackHaptics("ShockwaveHands_" + (__instance.isEquippedOnLeftHand ? "L" : "R"));
+                    tactsuitVr.PlaybackHaptics("ShockwaveArms_" + (__instance.isEquippedOnLeftHand ? "L" : "R"));
                 }
             }
         }
@@ -240,8 +237,8 @@ namespace AfterTheFall_bhaptics
                 if (__instance.identityModule.Entity.Name.Equals(
                     localPawn.Name, System.StringComparison.OrdinalIgnoreCase) && __instance.CanBeActivated)
                 {
-                    tactsuitVr.PlaybackHaptics("RecoilHands_" + (__instance.isEquippedOnLeftHand ? "L" : "R"), 4.0f, 2.0f);
-                    tactsuitVr.PlaybackHaptics("CombatDeviceArms_" + (__instance.isEquippedOnLeftHand ? "L" : "R"), 4.0f, 2.0f);
+                    tactsuitVr.PlaybackHaptics("SawbladeHands_" + (__instance.isEquippedOnLeftHand ? "L" : "R"));
+                    tactsuitVr.PlaybackHaptics("SawbladeArms_" + (__instance.isEquippedOnLeftHand ? "L" : "R"));
                 }
             }
         }
@@ -315,7 +312,7 @@ namespace AfterTheFall_bhaptics
                 if (entity.Name.Equals(
                     localPawn.Name, System.StringComparison.OrdinalIgnoreCase))
                 {
-                    tactsuitVr.PlaybackHaptics("RecoilHands_" + (handSide == Vertigo.VR.EHandSide.Right ? "R" : "L"));
+                    tactsuitVr.PlaybackHaptics("PadlockHands_" + (handSide == Vertigo.VR.EHandSide.Right ? "R" : "L"));
                     tactsuitVr.PlaybackHaptics("PadlockArms_" + (handSide == Vertigo.VR.EHandSide.Right ? "R" : "L"));
                 }
             }
@@ -349,8 +346,8 @@ namespace AfterTheFall_bhaptics
                 {
                     return;
                 }
-                tactsuitVr.PlaybackHaptics("RecoilHands_" + (__instance.MainHandSide == Vertigo.VR.EHandSide.Right ? "R" : "L"), 0.5f);
-                tactsuitVr.PlaybackHaptics("MagazineArms_" + (__instance.MainHandSide == Vertigo.VR.EHandSide.Right ? "R" : "L"), 0.5f);
+                tactsuitVr.PlaybackHaptics("MagazineEjectedHands_" + (__instance.MainHandSide == Vertigo.VR.EHandSide.Right ? "R" : "L"));
+                tactsuitVr.PlaybackHaptics("MagazineEjectedArms_" + (__instance.MainHandSide == Vertigo.VR.EHandSide.Right ? "R" : "L"));
             }
         }
 
@@ -365,8 +362,8 @@ namespace AfterTheFall_bhaptics
                     return;
                 }
 
-                tactsuitVr.PlaybackHaptics("RecoilHands_" + (__instance.gun.MainHandSide == Vertigo.VR.EHandSide.Right ? "R" : "L"), 0.5f);
-                tactsuitVr.PlaybackHaptics("MagazineArms_" + (__instance.gun.MainHandSide == Vertigo.VR.EHandSide.Right ? "R" : "L"), 0.5f);
+                tactsuitVr.PlaybackHaptics("MagazineReloadingHands_" + (__instance.gun.MainHandSide == Vertigo.VR.EHandSide.Right ? "R" : "L"));
+                tactsuitVr.PlaybackHaptics("MagazineReloadingArms_" + (__instance.gun.MainHandSide == Vertigo.VR.EHandSide.Right ? "R" : "L"));
             }
         }
 
@@ -381,8 +378,8 @@ namespace AfterTheFall_bhaptics
                     return;
                 }
 
-                tactsuitVr.PlaybackHaptics("RecoilHands_" + (__instance.gun.MainHandSide == Vertigo.VR.EHandSide.Right ? "R" : "L"), 0.5f);
-                tactsuitVr.PlaybackHaptics("MagazineLoadedArms_" + (__instance.gun.MainHandSide == Vertigo.VR.EHandSide.Right ? "R" : "L"), 0.5f);
+                tactsuitVr.PlaybackHaptics("MagazineLoadedHands_" + (__instance.gun.MainHandSide == Vertigo.VR.EHandSide.Right ? "R" : "L"));
+                tactsuitVr.PlaybackHaptics("MagazineLoadedArms_" + (__instance.gun.MainHandSide == Vertigo.VR.EHandSide.Right ? "R" : "L"));
             }
         }
     }

@@ -95,23 +95,32 @@ namespace MyBhapticsTactsuit
             // 1. An angle in degrees [0, 360] to turn the pattern to the left
             // 2. A shift [-0.5, 0.5] in y-direction (up and down) to move it up or down
             if (suitDisabled) { return; }
+            if (BhapticsSDK2.IsDeviceConnected(PositionType.Head)) PlaybackHaptics("HeadShot");
             BhapticsSDK2.Play(key.ToLower(), 1f, 1f, xzAngle, yShift);
         }
 
 
-        public void ShootRecoil(string gunType, bool isRightHand, float intensity = 0.7f)
+        public void ShootRecoil(string gunType, bool isRightHand, bool dualWield = false, float intensity = 1.0f)
         {
             // Melee feedback pattern
             if (suitDisabled) { return; }
-            float duration = 1.0f;
+            if (gunType == "Pistol") intensity = 0.8f;
             string postfix = "_L";
-            if (isRightHand) { postfix = "_R"; }
+            string otherPostfix = "_R";
+            if (isRightHand) { postfix = "_R"; otherPostfix = "_L"; }
             string keyHand = "RecoilHands" + postfix;
+            string keyOtherHand = "RecoilHands" + otherPostfix;
             string keyArm = "RecoilArms" + postfix;
+            string keyOtherArm = "RecoilArms" + otherPostfix;
             string keyVest = "Recoil" + gunType + "Vest" + postfix;
-            BhapticsSDK2.Play(keyHand.ToLower(), intensity, duration, 0f, 0f);
-            BhapticsSDK2.Play(keyArm.ToLower(), intensity, duration, 0f, 0f);
-            BhapticsSDK2.Play(keyVest.ToLower(), intensity, duration, 0f, 0f);
+            PlaybackHaptics(keyHand, intensity);
+            PlaybackHaptics(keyArm, intensity);
+            PlaybackHaptics(keyVest, intensity);
+            if (dualWield)
+            {
+                PlaybackHaptics(keyOtherHand, intensity);
+                PlaybackHaptics(keyOtherArm, intensity);
+            }
         }
 
         public void StartZipline()

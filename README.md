@@ -28,5 +28,5 @@ That's it. You can still play unmodded After The Fall by starting it "the normal
 
 Basically do what the Setup file does:
 * Download the latest release of [the After The Fall modding tool](https://github.com/floh-bhaptics/AfterTheFall_modding/releases)
-* Download and install the latest release of [BepInEx 6 (!)](https://builds.bepinex.dev/projects/bepinex_be)
+* Download and install the latest release of [BepInEx 6 (!)](https://github.com/BepInEx/BepInEx/releases/download/v6.0.0-pre.1/BepInEx_UnityIL2CPP_x64_6.0.0-pre.1.zip)
 * Download the two libraries in the latest release of [this mod](https://github.com/floh-bhaptics/AfterTheFall_bhaptics/releases/latest) and put them into the "BepInEx/plugins" folder

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Threading;
-using Bhaptics.SDK2;
+using tact_csharp2;
 using AfterTheFall_bhaptics;
 
 using System.Resources;
@@ -65,9 +65,9 @@ namespace MyBhapticsTactsuit
             // Default configuration exported in the portal, in case the PC is not online
             var config = System.Text.Encoding.UTF8.GetString(AfterTheFall_bhaptics.Properties.Resource1.config);
             // Initialize with appID, apiKey, and default value in case it is unreachable
-            var res = BhapticsSDK2.Initialize("VDgsXkzvLPIfwIBOTAX7", "uVIGumoIkQjWCnMxniVz", config);
+            bool res = BhapticsSDK2Wrapper.registryAndInit("uVIGumoIkQjWCnMxniVz", "VDgsXkzvLPIfwIBOTAX7", config);
             // if it worked, enable the suit
-            suitDisabled = res != 0;
+            suitDisabled = !res;
 
             LOG("Starting HeartBeat thread...");
             Thread HeartBeatThread = new Thread(HeartBeatFunc);
@@ -86,7 +86,7 @@ namespace MyBhapticsTactsuit
         public void PlaybackHaptics(String key, float intensity = 1.0f, float duration = 1.0f)
         {
             if (suitDisabled) return;
-            BhapticsSDK2.Play(key.ToLower(), intensity, duration, 0f, 0f);
+            BhapticsSDK2Wrapper.playParam(key.ToLower(), -1, intensity, duration, 0f, 0f);
         }
 
         public void PlayBackHit(String key, float xzAngle, float yShift)
@@ -95,8 +95,8 @@ namespace MyBhapticsTactsuit
             // 1. An angle in degrees [0, 360] to turn the pattern to the left
             // 2. A shift [-0.5, 0.5] in y-direction (up and down) to move it up or down
             if (suitDisabled) { return; }
-            if (BhapticsSDK2.IsDeviceConnected(PositionType.Head)) PlaybackHaptics("HeadShot");
-            BhapticsSDK2.Play(key.ToLower(), 1f, 1f, xzAngle, yShift);
+            if (BhapticsSDK2Wrapper.isbHapticsConnected(PositionType.Head)) PlaybackHaptics("HeadShot");
+            BhapticsSDK2Wrapper.playParam(key.ToLower(), -1, 1f, 1f, xzAngle, yShift);
         }
 
 
@@ -155,13 +155,13 @@ namespace MyBhapticsTactsuit
 
         public void StopHapticFeedback(String effect)
         {
-            BhapticsSDK2.Stop(effect.ToLower());
+            BhapticsSDK2Wrapper.stopByEventId(effect.ToLower());
         }
 
         public void StopAllHapticFeedback()
         {
             StopThreads();
-            BhapticsSDK2.StopAll();
+            BhapticsSDK2Wrapper.stopAll();
         }
 
         public void StopThreads()
